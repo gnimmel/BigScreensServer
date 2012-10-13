@@ -1,0 +1,17 @@
+{
+  "name": "res-send-proc",
+  "description": "",
+  "version": "0.0.1-23",
+  "private": true,
+  "scripts": {
+    "start": "app.js"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "jade": "0.27.5"
+  },
+  "subdomain": "res-send-proc",
+  "engines": {
+    "node": "0.8.x"
+  }
+}
