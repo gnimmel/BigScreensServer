@@ -12,6 +12,6 @@
   },
   "subdomain": "res-send-proc",
   "engines": {
-    "node": "0.8.x"
+    "node": "0.8.11"
   }
 }

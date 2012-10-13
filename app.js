@@ -1,6 +1,6 @@
 // BigScreensServer
 
-//Note: Processing must be connected to server before messages can be sent.
+//Note: Processing must be connected to the TCP server prior to sending messages.
 
 var express = require('express')
   , routes = require('./routes')
