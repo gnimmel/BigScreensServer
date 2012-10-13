@@ -1,9 +1,6 @@
-// linode or EC2
-// microinstance
+// BigScreensServer
 
-/*
- * Module dependencies.
- */
+//Note: Processing must be connected to server before messages can be sent.
 
 var express = require('express')
   , routes = require('./routes')
@@ -17,12 +14,10 @@ var app = express();
 
 // TCP server host and port:
 var HOST = 'localhost';
-var PORT = 80;
+var PORT = 7004;
 
-var app = express();
-
-// global vars
-PROCESSING = null;
+// Global var to contain the socket from processing
+var PROCESSING = null; 
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -42,15 +37,17 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 
-// Create a function to handle our incoming SMS requests (POST request)
+// Create a function to handle our incoming SMS requests
 app.post('/incoming', function(req, res) {
+
+  console.log("message incoming!");
+
   // Extract the From and Body values from the POST data
-  console.log("message incoming!!!");
   var message = req.body.Body;
   var from = req.body.From;
-  var messageAsString = message.toString('utf8');
+  messageAsString = message.toString('utf8');
   
-  // send to processing
+  // Send message to Processing
   PROCESSING.write(messageAsString);
   
   util.log('From: ' + from + ', Message: ' + message);
@@ -61,45 +58,16 @@ app.post('/incoming', function(req, res) {
   res.send(twiml, {'Content-Type':'text/xml'}, 200);
 });
 
-
-// Setup a tcp server
+// Initialize a TCP server
 var server = net.createServer(function (socket) {
-  // PROCESSING is global socket
+  
+  // PROCESSING is a global socket
   PROCESSING = socket;
 
   socket.addListener("connect", function () {
     util.puts("Connection from " + socket.remoteAddress);
-    //socket.write(messageAsString);
   });
-
-  socket.addListener('data', function(data){
-    console.log("received" + data);
-    socket.write("thank you for the data");
-  });
-
 });
-
-/*
-counter = 0;
-setInterval(function() {
-  tmpMessage = getMessage();
-
-  if (PROCESSING != null ) {
-    //write to processing
-    // PROCESSING.write("counter:"+ counter);
-    // counter++;
-
-      if (tmpMessage != null) {
-        PROCESSING.write(tmpMessage);
-      }
-    }    
-}, 1000);
-
-var getMessage = function() {
-  return messageAsString;
-}
-*/
-
 
 // TCP server
 server.listen(PORT, HOST);
