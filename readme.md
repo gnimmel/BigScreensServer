@@ -5,7 +5,7 @@ A NodeJS server built with Express and TCP to pass SMS information from Twilio t
 ## Requirements:
 
 - Node.js
-- A Twilio account (start one (here)[http://www.twilio.com/])
+- A Twilio account (start one [here](http://www.twilio.com/))
 - Processing
 
 ## How To:
